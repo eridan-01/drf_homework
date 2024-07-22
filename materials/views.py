@@ -8,7 +8,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
 
     """
-    Возвращает список всех курсов или один курс с расширенной информацией, если указан идентификатор. 
+    Возвращает список всех курсов или один курс с расширенной информацией, если указан идентификатор.
     """
     def get_serializer_class(self):
         if self.action == 'retrieve':
