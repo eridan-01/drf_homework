@@ -16,6 +16,7 @@ django-phonenumber-field = {extras = ["phonenumbers"], version = "^8.0.0"}
 black = "^24.4.2"
 django-filter = "^24.2"
 djangorestframework-simplejwt = "^5.3.1"
+ipython = "^8.26.0"
 
 
 [build-system]
