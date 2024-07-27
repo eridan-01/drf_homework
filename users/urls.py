@@ -13,10 +13,17 @@ from rest_framework_simplejwt.views import (
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('register/', UserCreateAPIView.as_view(), name='register'),
-    path('payment/', PaymentListAPIView.as_view(), name='payment_list'),
-
+    path("register/", UserCreateAPIView.as_view(), name="register"),
+    path("payment/", PaymentListAPIView.as_view(), name="payment_list"),
     # JWT token
-    path('login/', TokenObtainPairView.as_view(permission_classes=(AllowAny,)), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(permission_classes=(AllowAny,)), name='token_refresh'),
+    path(
+        "login/",
+        TokenObtainPairView.as_view(permission_classes=(AllowAny,)),
+        name="login",
+    ),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(permission_classes=(AllowAny,)),
+        name="token_refresh",
+    ),
 ]

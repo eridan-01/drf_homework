@@ -22,5 +22,5 @@ class PaymentListAPIView(ListAPIView):
     queryset = Payment.objects.all()
 
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['paid_lesson', 'paid_course', 'payment_method']
-    ordering_fields = ['-date_of_payment']
+    search_fields = ["paid_lesson", "paid_course", "payment_method"]
+    ordering_fields = ["-date_of_payment"]

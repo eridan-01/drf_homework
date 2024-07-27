@@ -17,7 +17,7 @@ class Command(BaseCommand):
             payment_date=datetime.now(),
             paid_course=course1,
             amount=100.00,
-            payment_method='cash'
+            payment_method="cash",
         )
 
         Payment.objects.create(
@@ -25,7 +25,7 @@ class Command(BaseCommand):
             payment_date=datetime.now(),
             paid_lesson=lesson1,
             amount=50.00,
-            payment_method='transfer'
+            payment_method="transfer",
         )
 
-        self.stdout.write(self.style.SUCCESS('Таблица платежей успешно заполнена'))
+        self.stdout.write(self.style.SUCCESS("Таблица платежей успешно заполнена"))
