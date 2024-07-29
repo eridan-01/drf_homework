@@ -6,7 +6,12 @@ from rest_framework.views import APIView
 
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import CoursePagination, LessonPagination
-from materials.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, SubscriptionSerializer
+from materials.serializers import (
+    CourseSerializer,
+    LessonSerializer,
+    CourseDetailSerializer,
+    SubscriptionSerializer,
+)
 from users.permissions import IsModer, IsOwner
 
 
@@ -17,8 +22,9 @@ class CourseViewSet(viewsets.ModelViewSet):
     """
     Возвращает список всех курсов или один курс с расширенной информацией, если указан идентификатор.
     """
+
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == "retrieve":
             return CourseDetailSerializer
         return CourseSerializer
 
@@ -76,15 +82,15 @@ class SubscriptionView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        course_id = request.data.get('course_id')
+        course_id = request.data.get("course_id")
         course = get_object_or_404(Course, pk=course_id)
 
         subs_item = Subscription.objects.filter(user=user, course=course)
 
         if subs_item.exists():
             subs_item.delete()
-            message = 'Подписка удалена'
+            message = "Подписка удалена"
         else:
             Subscription.objects.create(user=user, course=course)
-            message = 'Подписка добавлена'
+            message = "Подписка добавлена"
         return Response({"message": message})

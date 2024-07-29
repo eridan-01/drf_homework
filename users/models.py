@@ -16,78 +16,76 @@ class User(AbstractUser):
         upload_to="users/avatars/",
         verbose_name="Аватар",
         **NULLABLE,
-        help_text="Загрузите фото"
+        help_text="Загрузите фото",
     )
     phone_number = PhoneNumberField(
-        **NULLABLE,
-        verbose_name="Номер телефона",
-        help_text="Введите номер телефона"
+        **NULLABLE, verbose_name="Номер телефона", help_text="Введите номер телефона"
     )
     country = models.CharField(
-        **NULLABLE,
-        max_length=50,
-        verbose_name="Город",
-        help_text="Введите город"
+        **NULLABLE, max_length=50, verbose_name="Город", help_text="Введите город"
     )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
     def __str__(self):
         return self.email
 
 
 class Payment(models.Model):
-    PAYMENT_METHODS = (
-        ('cash', 'Наличные'),
-        ('transfer', 'Перевод на счет')
-    )
+    PAYMENT_METHODS = (("cash", "Наличные"), ("transfer", "Перевод на счет"))
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         verbose_name="Пользователь",
-        related_name="payments"
+        related_name="payments",
+        **NULLABLE
     )
 
-    payment_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата оплаты"
-    )
+    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
 
     paid_course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        verbose_name="Оплаченный курс",
-        **NULLABLE
+        Course, on_delete=models.CASCADE, verbose_name="Оплаченный курс", **NULLABLE
     )
     paid_lesson = models.ForeignKey(
-        Lesson,
-        on_delete=models.CASCADE,
-        verbose_name="Оплаченный урок",
-        **NULLABLE
+        Lesson, on_delete=models.CASCADE, verbose_name="Оплаченный урок", **NULLABLE
     )
 
     amount = models.DecimalField(
-        verbose_name="Сумма оплаты",
-        max_digits=10,
-        decimal_places=2
+        verbose_name="Сумма оплаты", max_digits=10, decimal_places=2
     )
 
     payment_method = models.CharField(
         max_length=50,
         choices=PAYMENT_METHODS,
         verbose_name="Метод оплаты",
-        help_text="Выберите метод оплаты"
+        help_text="Выберите метод оплаты",
+    )
+
+    session_id = models.CharField(
+        max_length=255,
+        **NULLABLE,
+        verbose_name="ID сессии",
+        help_text="ID сессии для оплаты"
+    )
+
+    link = models.URLField(
+        max_length=400,
+        **NULLABLE,
+        verbose_name="Ссылка для оплаты",
+        help_text="Ссылка для оплаты"
     )
 
     def __str__(self):
-        return (f'{self.user}: {self.payment_date}, {self.amount}, {self.payment_method}, '
-                f'за {self.paid_course if self.paid_course else self.paid_lesson}')
+        return (
+            f"{self.user}: {self.payment_date}, {self.amount}, {self.payment_method}, "
+            f"за {self.paid_course if self.paid_course else self.paid_lesson}"
+        )
 
     class Meta:
         verbose_name = "Платеж"

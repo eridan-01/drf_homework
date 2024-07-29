@@ -9,27 +9,24 @@ class Course(models.Model):
     title = models.CharField(
         max_length=100,
         verbose_name="Название курса",
-        help_text="Укажите название курса"
+        help_text="Укажите название курса",
     )
 
     preview = models.ImageField(
         upload_to="materials/courses",
         verbose_name="Изображение (превью)",
         **NULLABLE,
-        help_text="Загрузите изображение для превью курса"
+        help_text="Загрузите изображение для превью курса",
     )
 
     description = models.TextField(
         verbose_name="Описание курса",
         **NULLABLE,
-        help_text="Опишите основные материалы курса"
+        help_text="Опишите основные материалы курса",
     )
 
     owner = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        **NULLABLE,
-        verbose_name='Автор'
+        AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name="Автор"
     )
 
     def __str__(self):
@@ -44,20 +41,20 @@ class Lesson(models.Model):
     title = models.CharField(
         max_length=100,
         verbose_name="Название урока",
-        help_text="Укажите название урока"
+        help_text="Укажите название урока",
     )
 
     description = models.TextField(
         verbose_name="Описание урока",
         **NULLABLE,
-        help_text="Опишите основные материалы урока"
+        help_text="Опишите основные материалы урока",
     )
 
     preview = models.ImageField(
         upload_to="materials/lessons",
         verbose_name="Изображение (превью)",
         **NULLABLE,
-        help_text="Загрузите изображение для превью урока"
+        help_text="Загрузите изображение для превью урока",
     )
     course = models.ForeignKey(
         Course,
@@ -74,10 +71,7 @@ class Lesson(models.Model):
     )
 
     owner = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        **NULLABLE,
-        verbose_name='Автор'
+        AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name="Автор"
     )
 
     def __str__(self):
@@ -90,26 +84,14 @@ class Lesson(models.Model):
 
 class Subscription(models.Model):
     user = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        verbose_name='Пользователь'
+        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь"
     )
 
-    course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        verbose_name='Курс'
-    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата подписки'
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата подписки")
 
-    is_active = models.BooleanField(
-        default=True,
-        verbose_name='Активная подписка'
-    )
+    is_active = models.BooleanField(default=True, verbose_name="Активная подписка")
 
     def __str__(self):
         return f"{self.user} - {self.course}"
