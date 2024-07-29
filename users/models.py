@@ -66,6 +66,20 @@ class Payment(models.Model):
         help_text="Выберите метод оплаты",
     )
 
+    session_id = models.CharField(
+        max_length=255,
+        **NULLABLE,
+        verbose_name="ID сессии",
+        help_text="ID сессии для оплаты"
+    )
+
+    link = models.URLField(
+        max_length=400,
+        **NULLABLE,
+        verbose_name="Ссылка для оплаты",
+        help_text="Ссылка для оплаты"
+    )
+
     def __str__(self):
         return (
             f"{self.user}: {self.payment_date}, {self.amount}, {self.payment_method}, "
