@@ -20,6 +20,7 @@ ipython = "^8.26.0"
 coverage = "^7.6.0"
 drf-yasg = "^1.21.7"
 setuptools = "^71.1.0"
+stripe = "^10.5.0"
 
 
 [build-system]
