@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 
 from users.apps import UsersConfig
 
-from users.views import PaymentListAPIView, UserCreateAPIView
+from users.views import PaymentListAPIView, UserCreateAPIView, PaymentCreateAPIView
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -15,6 +15,7 @@ app_name = UsersConfig.name
 urlpatterns = [
     path("register/", UserCreateAPIView.as_view(), name="register"),
     path("payment/", PaymentListAPIView.as_view(), name="payment_list"),
+    path("payment/create/", PaymentCreateAPIView.as_view(), name="payment_create"),
     # JWT token
     path(
         "login/",
