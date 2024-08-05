@@ -21,6 +21,7 @@ coverage = "^7.6.0"
 drf-yasg = "^1.21.7"
 setuptools = "^71.1.0"
 stripe = "^10.5.0"
+celery = "^5.4.0"
 
 
 [build-system]
