@@ -13,6 +13,7 @@ from materials.serializers import (
     SubscriptionSerializer,
 )
 from users.permissions import IsModer, IsOwner
+from materials.tasks import sending_emails_for_update_course
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -33,6 +34,12 @@ class CourseViewSet(viewsets.ModelViewSet):
         course.owner = self.request.user
         course.save()
 
+    def perform_update(self, serializer):
+        serializer.save()
+        course = serializer.save()
+        course_id = course.id
+        sending_emails_for_update_course.delay(course_id)
+
     def get_permissions(self):
         if self.action in "create":
             self.permission_classes = (~IsModer,)
@@ -50,6 +57,19 @@ class LessonCreateAPIView(generics.CreateAPIView):
         lesson = serializer.save()
         lesson.owner = self.request.user
         lesson.save()
+
+    def perform_update(self, serializer):
+        lesson = serializer.save()
+
+        # Получите курс, к которому относится урок
+        course = lesson.course
+
+        # Получите всех подписчиков курса
+        subscribers = Subscription.objects.filter(course=course, is_active=True)
+
+        # Запустите задачу отправки письма для каждого подписчика
+        for subscriber in subscribers:
+            send_lesson_update_email.delay(subscriber.user.email, lesson.title, course.title)
 
 
 class LessonListAPIView(generics.ListAPIView):
