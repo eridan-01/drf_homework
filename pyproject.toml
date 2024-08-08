@@ -23,6 +23,7 @@ setuptools = "^71.1.0"
 stripe = "^10.5.0"
 celery = "^5.4.0"
 redis = "^5.0.8"
+django-celery-beat = "^2.6.0"
 
 
 [build-system]
